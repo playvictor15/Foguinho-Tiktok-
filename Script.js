@@ -1,4 +1,4 @@
-const apiUrl = "URL_DO_SEU_BACKEND";
+const apiUrl = "https://replit.com/@playv290/Foguinho-Tiktok-";
 async function register() {
     const username = document.getElementById("regUser").value;
     const password = document.getElementById("regPass").value;
