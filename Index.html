@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Mundo dos Pets</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; }
+        input, button { margin: 10px; padding: 8px; width: 80%; max-width: 300px; }
+        #container { max-width: 400px; margin: auto; padding: 20px; border: 1px solid #ddd; }
+    </style>
+</head>
+<body>
+
+    <div id="container">
+        <h2>Bem-vindo ao Mundo dos Pets!</h2>
+
+        <div id="loginDiv">
+            <h3>Login</h3>
+            <input type="text" id="loginUser" placeholder="Usuário">
+            <input type="password" id="loginPass" placeholder="Senha">
+            <button onclick="login()">Entrar</button>
+            <p id="loginMsg"></p>
+        </div>
+
+        <div id="registerDiv">
+            <h3>Cadastro</h3>
+            <input type="text" id="regUser" placeholder="Usuário">
+            <input type="password" id="regPass" placeholder="Senha">
+            <input type="text" id="regPet" placeholder="Nome do Pet">
+            <button onclick="register()">Cadastrar</button>
+            <p id="registerMsg"></p>
+        </div>
+    </div>
+
+    <script>
+        const apiUrl = "URL_DO_SEU_BACKEND"; // Substitua pela URL do seu backend no Replit ou Render
+
+        async function register() {
+            const username = document.getElementById("regUser").value;
+            const password = document.getElementById("regPass").value;
+            const pet_name = document.getElementById("regPet").value;
+
+            const response = await fetch(apiUrl + "/register", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ username, password, pet_name })
+            });
+
+            const data = await response.json();
+            document.getElementById("registerMsg").innerText = data.message || data.error;
+        }
+
+        async function login() {
+            const username = document.getElementById("loginUser").value;
+            const password = document.getElementById("loginPass").value;
+
+            const response = await fetch(apiUrl + "/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ username, password })
+            });
+
+            const data = await response.json();
+            if (data.message) {
+                alert("Login bem-sucedido! Seu pet: " + data.pet_name);
+            } else {
+                document.getElementById("loginMsg").innerText = data.error;
+            }
+        }
+    </script>
+
+</body>
+</html>
