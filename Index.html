@@ -4,11 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Mundo dos Pets</title>
-    <style>
-        body { font-family: Arial, sans-serif; text-align: center; }
-        input, button { margin: 10px; padding: 8px; width: 80%; max-width: 300px; }
-        #container { max-width: 400px; margin: auto; padding: 20px; border: 1px solid #ddd; }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
@@ -33,42 +29,7 @@
         </div>
     </div>
 
-    <script>
-        const apiUrl = "URL_DO_SEU_BACKEND"; // Substitua pela URL do seu backend no Replit ou Render
-
-        async function register() {
-            const username = document.getElementById("regUser").value;
-            const password = document.getElementById("regPass").value;
-            const pet_name = document.getElementById("regPet").value;
-
-            const response = await fetch(apiUrl + "/register", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ username, password, pet_name })
-            });
-
-            const data = await response.json();
-            document.getElementById("registerMsg").innerText = data.message || data.error;
-        }
-
-        async function login() {
-            const username = document.getElementById("loginUser").value;
-            const password = document.getElementById("loginPass").value;
-
-            const response = await fetch(apiUrl + "/login", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ username, password })
-            });
-
-            const data = await response.json();
-            if (data.message) {
-                alert("Login bem-sucedido! Seu pet: " + data.pet_name);
-            } else {
-                document.getElementById("loginMsg").innerText = data.error;
-            }
-        }
-    </script>
+    <script src="script.js"></script>
 
 </body>
 </html>
