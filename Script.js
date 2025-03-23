@@ -1,4 +1,3 @@
-
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.162.0/build/three.module.js';
 
 // Criando a cena
@@ -33,4 +32,9 @@ window.addEventListener('resize', () => {
     renderer.setSize(window.innerWidth, window.innerHeight);
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
+});
+
+// Função para iniciar o login com o TikTok
+document.getElementById('loginTiktok').addEventListener('click', () => {
+    window.location.href = 'http://localhost:3000/auth/tiktok'; // Altere para o seu backend se estiver online
 });
