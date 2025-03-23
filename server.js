@@ -34,12 +34,33 @@ app.get('/auth/tiktok/callback', async (req, res) => {
             headers: { Authorization: `Bearer ${accessToken}` }
         });
 
-        res.json(userResponse.data);
+        res.json({
+            userData: userResponse.data,
+            accessToken: accessToken
+        });
+
     } catch (error) {
+        console.error('Erro ao obter token:', error.response?.data || error.message);
         res.status(500).json({ error: 'Erro ao obter token' });
     }
 });
 
+// Rota para buscar informações do usuário (como o Foquinho)
+app.get('/user/info', async (req, res) => {
+    const { access_token } = req.query;
+
+    try {
+        const response = await axios.get('https://open.tiktokapis.com/v2/user/info/', {
+            headers: { Authorization: `Bearer ${access_token}` }
+        });
+
+        res.json(response.data);
+    } catch (error) {
+        console.error('Erro ao buscar informações do usuário:', error.response?.data || error.message);
+        res.status(500).json({ error: 'Erro ao obter dados do usuário' });
+    }
+});
+
 app.listen(3000, () => {
-    console.log('Servidor rodando em http://localhost:3000');
+    console.log('🚀 Servidor rodando em http://localhost:3000');
 });
