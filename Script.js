@@ -1,5 +1,6 @@
 const CLIENT_ID = "awempqehalsuqcnc";  // Client ID do TikTok
-const REDIRECT_URI = "https://playvictor15.github.io/Foguinho-Tiktok-/";  // Substitua pela URL do seu site
+const REDIRECT_URI = "https://playvictor15.github.io/foquinho-tiktok/";  // Substitua pela URL do seu site
+const BACKEND_URL = "https://seu-backend.vercel.app";  // Substitua pela URL do backend na Vercel
 
 document.getElementById("login-btn").addEventListener("click", function () {
     const authUrl = `https://www.tiktok.com/auth/authorize/?client_key=${CLIENT_ID}&scope=user.info.basic&response_type=code&redirect_uri=${encodeURIComponent(REDIRECT_URI)}`;
@@ -15,25 +16,13 @@ if (authCode) {
     fetchToken(authCode);
 }
 
-// Troca o código por um token de acesso (precisa de backend)
+// Envia o código de autenticação para o backend
 async function fetchToken(code) {
-    const TOKEN_URL = "https://open-api.tiktok.com/oauth/access_token/";
-
-    const data = {
-        client_key: CLIENT_ID,
-        client_secret: "SUA_CHAVE_SECRETA_AQUI",  // Nunca exponha sua chave secreta no frontend
-        code: code,
-        grant_type: "authorization_code",
-        redirect_uri: REDIRECT_URI
-    };
-
-    console.log("Solicitando token...");
-
     try {
-        const response = await fetch(TOKEN_URL, {
+        const response = await fetch(`${BACKEND_URL}/auth/tiktok`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(data)
+            body: JSON.stringify({ code })
         });
 
         const result = await response.json();
@@ -49,10 +38,8 @@ async function fetchToken(code) {
 
 // Obtém os dados do usuário autenticado
 async function fetchUserInfo(accessToken) {
-    const USER_INFO_URL = "https://open-api.tiktok.com/user/info/";
-
     try {
-        const response = await fetch(USER_INFO_URL, {
+        const response = await fetch("https://open-api.tiktok.com/user/info/", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ access_token: accessToken, fields: ["display_name", "avatar_url"] })
