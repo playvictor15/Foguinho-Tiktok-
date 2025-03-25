@@ -2,9 +2,11 @@ const CLIENT_ID = "awempqehalsuqcnc";  // Client ID do TikTok
 const REDIRECT_URI = "https://playvictor15.github.io/foquinho-tiktok/";  // Substitua pela URL do seu site
 const BACKEND_URL = "https://foquinho-tiktok.vercel.app/";  // Substitua pela URL do backend na Vercel
 
-document.getElementById("login-btn").addEventListener("click", function () {
-    const authUrl = `https://www.tiktok.com/auth/authorize/?client_key=${CLIENT_ID}&scope=user.info.basic&response_type=code&redirect_uri=${encodeURIComponent(REDIRECT_URI)}`;
-    window.location.href = authUrl;
+document.addEventListener("DOMContentLoaded", function () {
+    document.getElementById("login-btn").addEventListener("click", function () {
+        const authUrl = `https://www.tiktok.com/auth/authorize/?client_key=${CLIENT_ID}&scope=user.info.basic&response_type=code&redirect_uri=${encodeURIComponent(REDIRECT_URI)}`;
+        window.location.href = authUrl;
+    });
 });
 
 // Verifica se há código de autenticação na URL
