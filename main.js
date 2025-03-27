@@ -1,18 +1,19 @@
-import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.150.1/build/three.module.js';
+// Importação correta do Three.js e OrbitControls
+import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.150.1/build/three.module.min.js';
 import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@0.150.1/examples/jsm/controls/OrbitControls.js';
 
-// Configuração da cena
+// Criando a cena
 const scene = new THREE.Scene();
 
-// Iluminação
+// Adicionando iluminação
 const light = new THREE.AmbientLight(0xffffff, 1.2);
 scene.add(light);
 
-// Configuração da câmera
+// Configurando a câmera
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-camera.position.set(0, 15, 40); // Posição ajustada
+camera.position.set(0, 15, 40); // Ajustando a posição inicial
 
-// Configuração do renderizador
+// Configurando o renderizador
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setPixelRatio(window.devicePixelRatio);
@@ -26,31 +27,33 @@ ground.rotation.x = -Math.PI / 2;
 scene.add(ground);
 
 // Criando a Sala Fria
-const coldRoomGeometry = new THREE.BoxGeometry(12, 6, 12);
-const coldRoomMaterial = new THREE.MeshBasicMaterial({ color: 0xadd8e6 });
-const coldRoom = new THREE.Mesh(coldRoomGeometry, coldRoomMaterial);
+const coldRoom = new THREE.Mesh(
+    new THREE.BoxGeometry(12, 6, 12),
+    new THREE.MeshBasicMaterial({ color: 0xadd8e6 })
+);
 coldRoom.position.set(-25, 3, 0);
 scene.add(coldRoom);
 
 // Criando o Cemitério
-const cemeteryGeometry = new THREE.BoxGeometry(12, 6, 12);
-const cemeteryMaterial = new THREE.MeshBasicMaterial({ color: 0x696969 });
-const cemetery = new THREE.Mesh(cemeteryGeometry, cemeteryMaterial);
+const cemetery = new THREE.Mesh(
+    new THREE.BoxGeometry(12, 6, 12),
+    new THREE.MeshBasicMaterial({ color: 0x696969 })
+);
 cemetery.position.set(25, 3, 0);
 scene.add(cemetery);
 
 // Criando o Mundo Principal (Cidade)
-const cityGeometry = new THREE.BoxGeometry(20, 6, 20);
-const cityMaterial = new THREE.MeshBasicMaterial({ color: 0xf5deb3 });
-const city = new THREE.Mesh(cityGeometry, cityMaterial);
+const city = new THREE.Mesh(
+    new THREE.BoxGeometry(20, 6, 20),
+    new THREE.MeshBasicMaterial({ color: 0xf5deb3 })
+);
 city.position.set(0, 3, 15);
 scene.add(city);
 
-// Controles de câmera para Mobile e PC
+// Ajustando os controles de câmera (agora funciona!)
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
 controls.dampingFactor = 0.05;
-controls.screenSpacePanning = false;
 controls.minDistance = 20;
 controls.maxDistance = 80;
 controls.maxPolarAngle = Math.PI / 2;
@@ -63,7 +66,7 @@ function animate() {
 }
 animate();
 
-// Ajuste de tela responsivo
+// Responsividade
 window.addEventListener('resize', () => {
     renderer.setSize(window.innerWidth, window.innerHeight);
     camera.aspect = window.innerWidth / window.innerHeight;
