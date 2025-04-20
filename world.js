@@ -23,7 +23,8 @@ export function criarMundo3D() {
   const planoMat = new THREE.MeshStandardMaterial({ color: 0x66bb66 });
   const solo = new THREE.Mesh(planoGeo, planoMat);
   solo.rotation.x = -Math.PI / 2;
-  scene.add(solo);
+  solo.name = 'chao';
+scene.add(solo);
 
   // Posições básicas dos mundos
   criarDivisoesDoMundo(scene);
