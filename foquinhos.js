@@ -1,4 +1,4 @@
-import * as THREE from 'three';
+import * as THREE from 'https://cdn.skypack.dev/three@0.152.2';
 
 export function criarFoquinho(tipo = 'ativo') {
   const geometria = new THREE.SphereGeometry(0.5, 32, 32);
