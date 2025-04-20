@@ -28,4 +28,4 @@ async function iniciarJogo() {
   animar(renderer, cena, camera);
 }
 
-iniciarJogo();
+document.addEventListener('DOMContentLoaded', iniciarJogo);
