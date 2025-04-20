@@ -1,4 +1,3 @@
-import * as THREE from 'three';
 import { criarFoquinho } from './foquinhos.js';
 
 let mixer;
