@@ -1,3 +1,4 @@
+import * as THREE from 'https://cdn.skypack.dev/three@0.152.2';
 import { iniciarLoginTikTok, usuarioLogado, obterFoquinhosDoUsuario } from './login.js';
 import { criarMundo3D, adicionarFoquinhosNoMundo, animar } from './world.js';
 
