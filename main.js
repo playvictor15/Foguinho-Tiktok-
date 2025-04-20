@@ -1,9 +1,9 @@
 import * as THREE from 'https://cdn.skypack.dev/three@0.152.2';
 import { iniciarLoginTikTok, usuarioLogado, obterFoquinhosDoUsuario } from './login.js';
-import { criarMundo3D, adicionarFoquinhosNoMundo, animar } from './world.js';
+import { criarMundo3D } from './world.js';
 
 let foquinhosData = [];
-let principal = null; // Foquinho principal controlável
+let principal = null;
 let destino = null;
 
 async function init() {
@@ -15,31 +15,26 @@ async function init() {
   foquinhosData = await obterFoquinhosDoUsuario();
   const { scene, rendererInstance, cameraInstance } = criarMundo3D();
 
-  // Adiciona Foquinhos e identifica o controlável
   const todosFoquinhos = [];
   let posX = 0;
-  foquinhosData.forEach((f, i) => {
+
+  foquinhosData.forEach((f) => {
+    const { foquinho } = criarFoquinhoComControle(f);
+    foquinho.position.set(posX, 0.5, 0);
     if (f.tipo === 'ativo' && !principal) {
-      const { foquinho, foquinhoData } = criarFoquinhoComControle(f);
-      foquinho.position.set(posX, 0.5, 0);
       principal = foquinho;
-      todosFoquinhos.push(foquinho);
-    } else {
-      const { foquinho } = criarFoquinhoComControle(f);
-      foquinho.position.set(posX, 0.5, 0);
-      todosFoquinhos.push(foquinho);
     }
+    todosFoquinhos.push(foquinho);
+    scene.add(foquinho);
     posX += 1.5;
   });
 
-  todosFoquinhos.forEach(f => scene.add(f));
-
-  // Controle por clique/toque
+  // Controle de clique/toque
   const raycaster = new THREE.Raycaster();
   const mouse = new THREE.Vector2();
+  const canvas = rendererInstance.domElement;
 
   function onMove(event) {
-    const canvas = rendererInstance.domElement;
     const bounds = canvas.getBoundingClientRect();
     const x = (event.clientX || event.touches?.[0].clientX) - bounds.left;
     const y = (event.clientY || event.touches?.[0].clientY) - bounds.top;
@@ -48,7 +43,9 @@ async function init() {
     mouse.y = -(y / canvas.clientHeight) * 2 + 1;
 
     raycaster.setFromCamera(mouse, cameraInstance);
-    const intersects = raycaster.intersectObject(scene.children.find(obj => obj.name === 'chao'));
+    const chao = scene.children.find(obj => obj.name === 'chao');
+    const intersects = raycaster.intersectObject(chao);
+
     if (intersects.length > 0) {
       destino = intersects[0].point.clone();
     }
@@ -57,7 +54,6 @@ async function init() {
   canvas.addEventListener('click', onMove);
   canvas.addEventListener('touchstart', onMove);
 
-  // Animação com movimento
   function animarTudo() {
     requestAnimationFrame(animarTudo);
 
